@@ -1,15 +1,16 @@
 ---
 title: "“The queen of problems”: the evolutionary paradox of sex"
-summary: "Why does sexual reproduction remain so widespread despite its costs? Exploring recombination, the Red Queen hypothesis and an unresolved evolutionary puzzle."
-author: "Ellie Smith"
+summary: Why does sexual reproduction remain so widespread despite its costs?
+  Exploring recombination, the Red Queen hypothesis and an unresolved
+  evolutionary puzzle.
+author: Ellie Smith
 section: Features
 topic: Evolution
 date: 2026-01-01
-image: /images/the-queen-of-problems.jpg
+image: /images/Picture2.jpg
 featured: false
 draft: false
 ---
-
 As Ella Fitzgerald sang “birds do it, bees do it, even educated fleas do it”, and turns out the majority of the animal kingdom does it. Do what you ask…well maybe not fall in love as she implied, but most animals do sexually reproduce, with only [around 0.1% of animals being known to be exclusively asexual](https://www.jstor.org/stable/1313421). Yet this predominance of sex has been puzzling biologists for decades leading it to be called ['the queen of problems in evolutionary biology'](https://books.google.co.uk/books?hl=en&lr=&id=ZcXADwAAQBAJ&oi=fnd&pg=PT17&ots=GzYPT-ZHWw&sig=8RqQUAjXrOCLPTXUsdK9TQ08tiI&redir_esc=y).  But why is the ubiquity of sex so confusing?
 
 Well, sexual reproduction has many costs compared to asexual reproduction with the main cost of sex being the production of males. Unlike females who directly produce offspring, males typically invest minimally in offspring, often only providing their genetic material. As a result, a population of asexual females should theoretically grow at twice the speed of a sexual population where females waste half their resources on producing males. Sex is therefore often said to have a [two-fold cost compared to asexual reproduction](https://books.google.co.uk/books/about/The_Evolution_of_Sex.html?id=SbI5AAAAIAAJ&redir_esc=y).

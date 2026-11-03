@@ -26,7 +26,6 @@ content:
       - { name: topic, label: "Topic, e.g. Ecology", type: string, required: true }
       - { name: date, label: Publication date, type: date, required: true }
       - { name: image, label: Main image, type: image, required: true }
-      - { name: imageAlt, label: Image description for screen readers, type: string, required: true }
       - { name: featured, label: Feature on the homepage, type: boolean }
       - { name: draft, label: "Draft (tick to keep it off the website)", type: boolean }
       - { name: body, label: Article text, type: rich-text, required: true }

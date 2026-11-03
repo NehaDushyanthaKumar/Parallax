@@ -22,7 +22,7 @@ const author = await writerPath(data.author);
     <h1>{data.title}</h1>
     {author ? <a class="text-link" href={url(author)}>{data.author}</a> : <p>{data.author}</p>}
   </header>
-  <img class="article-image" src={url(data.image)} alt={data.imageAlt} />
+  <img class="article-image" src={url(data.image)} alt="" />
   <div class="prose"><Content /></div>
   {related.length > 0 && (
     <section class="related">

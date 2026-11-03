@@ -15,7 +15,6 @@ export const collections = {
       topic: z.string(),
       date: z.coerce.date(),
       image: z.string(),
-      imageAlt: z.string(),
       featured: z.boolean().default(false),
       draft: z.boolean().default(false),
     }),

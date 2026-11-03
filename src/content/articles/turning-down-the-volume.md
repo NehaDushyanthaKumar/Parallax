@@ -1,15 +1,16 @@
 ---
-title: "Turning down the volume: mitigating the impacts of anthropogenic noise pollution on animals and ecosystems"
-summary: "How human-made noise affects wildlife and ecosystems, and what we can do to reduce its impact."
-author: "Melissa E Ramsay"
+title: "Turning down the volume: mitigating the impacts of anthropogenic noise
+  pollution on animals and ecosystems"
+summary: How human-made noise affects wildlife and ecosystems, and what we can
+  do to reduce its impact.
+author: Melissa E Ramsay
 section: Features
 topic: Ecology
 date: 2026-02-01
-image: /images/turning-down-the-volume.jpg
+image: /images/Picture1.jpg
 featured: true
 draft: false
 ---
-
 *“We ought to call ourselves Homo clamorans. Noisemaking Man.”* – Sir Terry Pratchett
 
 It is no secret that we humans impact the world around us, from pumping out greenhouse gases, destroying swathes of rainforests, to emptying vast quantities of microplastics into the ocean. We do have the occasional positive impact too, of course. An often forgotten form of pollution is that of sensory pollution, including [chemicals that interfere with animal signalling,](https://royalsocietypublishing.org/rspb/article/285/1885/20181297/102389) [artificial light at night](https://www.nature.com/articles/s41559-020-01322-x), and [noise pollution](https://link.springer.com/article/10.1186/s13750-020-00202-y). The latter has been shown to impact ecosystems across the globe, including terrestrial, marine and freshwater systems, impacting a range of organisms via disruption to physiology, development and behaviour. Many animals rely on sounds and acoustic signals for communication, mating, detecting and avoiding predators, and for social interactions. Birdsong is not only uniquely beautiful to our own ears but is vital for [mating and territory defence in many bird species, as well as having other potential social functions](https://www.cell.com/current-biology/fulltext/S0960-9822(22)01915-7). We may listen to the calming sounds of whales to fall asleep to, but for the whales themselves their calls [facilitate reproductive and foraging behaviours.](https://www.int-res.com/journals/meps/articles/meps330269)  Even insects produce charmingly elaborate courtship songs, from [grasshoppers to crickets to flies](https://www.annualreviews.org/content/journals/10.1146/annurev-neuro-080317-061839).

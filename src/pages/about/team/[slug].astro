@@ -1,0 +1,27 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Crumbs from '../../../components/Crumbs.astro';
+import Ctas from '../../../components/Ctas.astro';
+import Portrait from '../../../components/Portrait.astro';
+import { url } from '../../../lib/site';
+export async function getStaticPaths() {
+  const members = await getCollection('committee');
+  return members.map((member) => ({ params: { slug: member.id }, props: { member } }));
+}
+const { member } = Astro.props;
+const { Content } = await render(member);
+---
+<Base title={member.data.name} current="About us">
+  <Crumbs items={[['Home', '/'], ['About us', '/about/'], ['Meet the team', '/about/team/'], [member.data.name]]} />
+  <div class="profile">
+    <Portrait src={member.data.portrait} name={member.data.name} />
+    <div>
+      <h1>{member.data.name}</h1>
+      <p class="role">{member.data.role}</p>
+      <div class="outline" style="padding:20px"><Content /></div>
+    </div>
+  </div>
+  <p style="margin-top:32px"><a class="text-link" href={url('/about/team/')}>Back to Meet the team →</a></p>
+  <div class="stack" style="margin-top:40px"><Ctas /></div>
+</Base>

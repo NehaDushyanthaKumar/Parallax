@@ -1,0 +1,69 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { links, url } from '../lib/site';
+const { title, description = 'PARALLAX is the University of St Andrews science magazine.', current = '' } = Astro.props;
+const nav = [
+  ['Home', '/'], ['Articles', '/articles/'], ['Get involved', '/get-involved/'],
+  ['Events', '/events/'], ['About us', '/about/'],
+];
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title ? `${title} | PARALLAX` : 'PARALLAX | University of St Andrews Science Magazine'}</title>
+  <meta name="description" content={description} />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href={url('/')} aria-label="PARALLAX home">
+        <span class="brand-name">PARALLAX</span>
+        <img src={url('/images/logo-nav.png')} alt="" />
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu ≡</button>
+      <nav class="nav" id="site-nav" aria-label="Main">
+        {nav.map(([label, href]) => (
+          <a href={url(href)} aria-current={current === label ? 'page' : undefined}>{label}</a>
+        ))}
+        <a class="subscribe" href={links.newsletter}>Subscribe</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap"><slot /></main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-cols">
+        <div>
+          <p class="footer-brand">PARALLAX</p>
+          <p>Science Magazine<br />University of St Andrews</p>
+        </div>
+        <div>
+          <p class="footer-head">Explore</p>
+          <p><a href={url('/articles/')}>Articles</a> · <a href={url('/get-involved/')}>Get involved</a> · <a href={url('/events/')}>Events</a> · <a href={url('/about/')}>About us</a></p>
+          <p><a href={url('/about/team/')}>Meet the team</a> · <a href={url('/about/writers/')}>Meet the writers</a></p>
+        </div>
+        <div>
+          <p class="footer-head">Stay in touch</p>
+          <p><a href={links.instagram}>Instagram @parallax.sta</a></p>
+          <p><a href={links.newsletter}>Newsletter</a></p>
+        </div>
+      </div>
+      <div class="legal">
+        <p>© {new Date().getFullYear()} PARALLAX. Independent and reader supported.</p>
+        <p><a href={url('/coming-soon/')}>Privacy policy</a> · <a href={url('/coming-soon/')}>Terms</a> · <a href={url('/coming-soon/')}>Accessibility</a></p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('#site-nav');
+    toggle?.addEventListener('click', () => {
+      const open = nav?.classList.toggle('open') ?? false;
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+  </script>
+</body>
+</html>

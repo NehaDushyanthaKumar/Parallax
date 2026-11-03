@@ -1,0 +1,8 @@
+---
+import Cta from './Cta.astro';
+import { links } from '../lib/site';
+const { show = ['newsletter'], newsletterText = 'Keep up with new science writing, magazine news and opportunities to get involved with PARALLAX.' } = Astro.props;
+---
+{show.includes('submit') && <Cta eyebrow="Share your work" title="Submit an article" text="Share your science writing with PARALLAX. Use the button below to begin the submission process." href={links.upload} label="Upload article" />}
+{show.includes('newsletter') && <Cta eyebrow="Stay curious" title="Sign up to our newsletter" text={newsletterText} href={links.newsletter} label="Subscribe" />}
+{show.includes('join') && <Cta eyebrow="Get involved" title="Join the committee" text="Help shape the direction of PARALLAX through editorial decisions, event planning and community outreach." href={links.join} label="Join the committee" />}

@@ -1,0 +1,64 @@
+---
+import ArticleCard from './ArticleCard.astro';
+import Crumbs from './Crumbs.astro';
+import Ctas from './Ctas.astro';
+import { SECTIONS, url, type Article } from '../lib/site';
+const { articles, section } = Astro.props as { articles: Article[]; section?: string };
+const heading = section ?? 'Articles';
+---
+{section && <Crumbs items={[['Articles', '/articles/'], [section]]} />}
+<h1>{heading}</h1>
+<div class="controls">
+  <form class="js-search" role="search">
+    <label for="q">Search articles</label>
+    <div class="search-row">
+      <input id="q" type="search" placeholder="Search by title, topic or author" />
+      <button class="btn" type="submit">Search</button>
+    </div>
+  </form>
+  <p class="label">Browse by category</p>
+  <div class="pills">
+    <a class="pill" href={url('/articles/')} aria-current={!section ? 'page' : undefined}>All articles</a>
+    {SECTIONS.map((s) => <a class="pill" href={url(`/articles/${s.toLowerCase()}/`)} aria-current={section === s ? 'page' : undefined}>{s}</a>)}
+  </div>
+</div>
+<hr class="rule" />
+<div class="results-bar">
+  <span class="js-count" data-total={articles.length}>{articles.length ? `Showing ${articles.length} of ${articles.length} articles` : '0 articles'}</span>
+  <label>Sort by:<select class="js-sort"><option value="new">Newest first</option><option value="old">Oldest first</option></select></label>
+</div>
+<div class="stack">
+  {articles.length > 0 && <div class="grid-2 js-list">{articles.map((article) => <ArticleCard article={article} />)}</div>}
+  <section class="panel js-empty" hidden={articles.length > 0}>
+    <h2>{articles.length ? 'No matching articles' : `No ${heading.toLowerCase()} articles yet`}</h2>
+    <p>{articles.length ? 'Try a different title, topic or author.' : `New ${heading.toLowerCase()} will appear here when they are added. Explore our Features or sign up to the newsletter for updates.`}</p>
+  </section>
+  <Ctas show={['submit', 'newsletter']} />
+</div>
+<script>
+  const list = document.querySelector('.js-list');
+  const count = document.querySelector<HTMLElement>('.js-count');
+  const empty = document.querySelector<HTMLElement>('.js-empty');
+  const input = document.querySelector<HTMLInputElement>('#q');
+  const total = Number(count?.dataset.total ?? 0);
+  const apply = () => {
+    if (!list || !count || !empty || !input) return;
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    list.querySelectorAll<HTMLElement>('.card').forEach((card) => {
+      const match = (card.dataset.search ?? '').includes(q);
+      card.hidden = !match;
+      if (match) shown += 1;
+    });
+    count.textContent = `Showing ${shown} of ${total} articles`;
+    empty.hidden = shown > 0;
+  };
+  document.querySelector('.js-search')?.addEventListener('submit', (e) => { e.preventDefault(); apply(); });
+  input?.addEventListener('input', apply);
+  document.querySelector<HTMLSelectElement>('.js-sort')?.addEventListener('change', (e) => {
+    const dir = (e.target as HTMLSelectElement).value === 'old' ? 1 : -1;
+    [...(list?.children ?? [])]
+      .sort((a, b) => dir * (Number((a as HTMLElement).dataset.date) - Number((b as HTMLElement).dataset.date)))
+      .forEach((card) => list?.append(card));
+  });
+</script>

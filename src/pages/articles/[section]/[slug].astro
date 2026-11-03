@@ -1,0 +1,35 @@
+---
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import ArticleCard from '../../../components/ArticleCard.astro';
+import Ctas from '../../../components/Ctas.astro';
+import { getArticles, url, writerPath } from '../../../lib/site';
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  return articles.map((article) => ({
+    params: { section: article.data.section.toLowerCase(), slug: article.id },
+    props: { article, related: articles.filter((a) => a.id !== article.id).slice(0, 3) },
+  }));
+}
+const { article, related } = Astro.props;
+const { data } = article;
+const { Content } = await render(article);
+const author = await writerPath(data.author);
+---
+<Base title={data.title} description={data.summary} current="Articles">
+  <header class="article-head">
+    <p class="crumbs"><a href={url('/articles/')}>Articles</a> / <a href={url(`/articles/${data.section.toLowerCase()}/`)}>{data.section}</a> · {data.topic}</p>
+    <h1>{data.title}</h1>
+    {author ? <a class="text-link" href={url(author)}>{data.author}</a> : <p>{data.author}</p>}
+  </header>
+  <img class="article-image" src={url(data.image)} alt={data.imageAlt} />
+  <div class="prose"><Content /></div>
+  {related.length > 0 && (
+    <section class="related">
+      <hr class="rule" />
+      <h2 class="section-title" style="margin-bottom:20px">Related articles</h2>
+      <div class="grid-3">{related.map((a) => <ArticleCard article={a} tags={false} />)}</div>
+    </section>
+  )}
+  <div class="stack" style="margin-top:48px"><Ctas /></div>
+</Base>

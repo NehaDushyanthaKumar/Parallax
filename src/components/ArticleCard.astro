@@ -1,0 +1,15 @@
+---
+import { articlePath, url, writerPath, type Article } from '../lib/site';
+const { article, tags = true } = Astro.props as { article: Article; tags?: boolean };
+const { data } = article;
+const author = await writerPath(data.author);
+---
+<article class="card" data-search={`${data.title} ${data.summary} ${data.topic} ${data.author}`.toLowerCase()} data-date={data.date.getTime()}>
+  <a href={url(articlePath(article))} tabindex="-1" aria-hidden="true"><img src={url(data.image)} alt="" loading="lazy" /></a>
+  {tags
+    ? <div class="card-meta"><span class="tag tag-solid">{data.section}</span><span class="tag">{data.topic}</span></div>
+    : <p class="eyebrow card-meta">{data.topic}</p>}
+  <h3><a href={url(articlePath(article))}>{data.title}</a></h3>
+  <p>{data.summary}</p>
+  <p class="by">{author ? <a href={url(author)}>{data.author}</a> : data.author}</p>
+</article>

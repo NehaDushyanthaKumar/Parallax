@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Cta from '../../components/Cta.astro';
+import Ctas from '../../components/Ctas.astro';
+import { url } from '../../lib/site';
+const events = await getCollection('events');
+---
+<Base title="Events" current="Events">
+  <Crumbs items={[['Home', '/'], ['Events']]} />
+  <h1 style="margin-bottom:48px">Events</h1>
+  <div class="stack">
+    {events.length
+      ? <Cta eyebrow="Programme update" title="See our upcoming programme." text="Find the details of forthcoming PARALLAX events." href={url('/events/upcoming/')} label="Upcoming events" />
+      : <Cta eyebrow="Programme update" title="Our upcoming programme will be announced." text="No events have been announced yet. The Upcoming events page will bring together details as they become available." href={url('/events/upcoming/')} label="Upcoming events" />}
+    <Ctas newsletterText="Hear when the upcoming programme is announced, alongside new science writing and ways to get involved with PARALLAX." />
+  </div>
+</Base>

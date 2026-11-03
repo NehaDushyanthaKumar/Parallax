@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Crumbs from '../../../components/Crumbs.astro';
+import Ctas from '../../../components/Ctas.astro';
+import Portrait from '../../../components/Portrait.astro';
+import { articlePath, getArticles, url } from '../../../lib/site';
+export async function getStaticPaths() {
+  const writers = await getCollection('writers');
+  return writers.map((writer) => ({ params: { slug: writer.id }, props: { writer } }));
+}
+const { writer } = Astro.props;
+const { name, role, portrait } = writer.data;
+const first = name.split(' ')[0];
+const { Content } = await render(writer);
+const articles = (await getArticles()).filter((a) => a.data.author === name);
+---
+<Base title={name} current="About us">
+  <Crumbs items={[['Home', '/'], ['About us', '/about/'], ['Meet the writers', '/about/writers/'], [name]]} />
+  <div class="profile">
+    <Portrait src={portrait} name={name} />
+    <div>
+      <h1>{name}</h1>
+      <p class="role">{role}</p>
+      <div class="outline" style="padding:20px">
+        {writer.body?.trim()
+          ? <Content />
+          : <><p class="eyebrow" style="margin-bottom:8px">Biography pending</p><p style="margin:0">{first}'s biography has not yet been supplied. A portrait and introduction will be added when available.</p></>}
+      </div>
+    </div>
+  </div>
+  <hr class="rule" />
+  <h2 class="section-title">Writing by {first}</h2>
+  <p class="eyebrow" style="margin:12px 0 20px">{articles.length} {articles.length === 1 ? 'article' : 'articles'}</p>
+  <div class="stack">
+    {articles.map((a) => (
+      <article class="writer-article">
+        <img src={url(a.data.image)} alt="" loading="lazy" />
+        <div>
+          <div class="card-meta" style="margin-top:0"><span class="tag tag-solid">{a.data.section}</span><span class="tag">{a.data.topic}</span></div>
+          <h3 style="font-size:24px;margin-bottom:12px">{a.data.title}</h3>
+          <p style="margin-bottom:12px">{a.data.summary}</p>
+          <a class="text-link" href={url(articlePath(a))}>Read article →</a>
+        </div>
+      </article>
+    ))}
+    <p><a class="text-link" href={url('/about/writers/')}>Back to Meet the writers →</a></p>
+    <Ctas />
+  </div>
+</Base>

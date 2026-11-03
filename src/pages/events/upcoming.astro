@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Ctas from '../../components/Ctas.astro';
+import { url } from '../../lib/site';
+const events = (await getCollection('events')).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const fmt = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
+---
+<Base title="Upcoming events" current="Events">
+  <Crumbs items={[['Home', '/'], ['Events', '/events/'], ['Upcoming events']]} />
+  <h1 style="margin-bottom:40px">Upcoming events</h1>
+  <div class="stack">
+    {events.length > 0
+      ? <div class="grid-2">{events.map((e) => (
+          <section class="outline">
+            <p class="eyebrow">{fmt.format(e.data.date)}{e.data.time && ` · ${e.data.time}`}</p>
+            <h2 style="margin-top:12px">{e.data.title}</h2>
+            <p>{e.data.summary}</p>
+            <a class="text-link" href={url(`/events/${e.id}/`)}>View event →</a>
+          </section>))}
+        </div>
+      : <section class="panel"><h2>No events announced yet</h2><p>Details will be added here as they become available.</p></section>}
+    <Ctas />
+  </div>
+</Base>

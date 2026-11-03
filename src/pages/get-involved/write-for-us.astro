@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Ctas from '../../components/Ctas.astro';
+import { links } from '../../lib/site';
+---
+<Base title="Write for us" current="Get involved">
+  <Crumbs items={[['Home', '/'], ['Get involved', '/get-involved/'], ['Write for us']]} />
+  <div class="title-row"><h1>Write for us</h1><a class="btn" href={links.upload}>Upload article</a></div>
+  <hr class="rule" />
+  <h2 class="section-title" style="margin-bottom:48px">What could you write about?</h2>
+  <div class="stack"><Ctas show={['newsletter', 'join']} /></div>
+</Base>

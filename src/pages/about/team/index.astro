@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Crumbs from '../../../components/Crumbs.astro';
+import Ctas from '../../../components/Ctas.astro';
+import Portrait from '../../../components/Portrait.astro';
+import { url } from '../../../lib/site';
+const members = await getCollection('committee');
+const cards = members.length
+  ? members.map((m) => ({ name: m.data.name, role: m.data.role, portrait: m.data.portrait, bio: '', href: `/about/team/${m.id}/` }))
+  : [1, 2, 3].map(() => ({ name: 'Committee member name', role: 'Committee role', portrait: null, bio: 'Name and role pending.', href: '/about/team/committee-member/' }));
+---
+<Base title="Meet the team" current="About us">
+  <Crumbs items={[['Home', '/'], ['About us', '/about/'], ['Meet the team']]} />
+  <h1>Meet the team</h1>
+  <hr class="rule" />
+  <h2 class="section-title" style="margin-bottom:20px">Committee directory</h2>
+  <div class="grid-3">
+    {cards.map((c) => (
+      <section class="person">
+        <Portrait src={c.portrait} name={c.name} />
+        <h3>{c.name}</h3>
+        <p class="eyebrow" style="margin-bottom:12px">{c.role}</p>
+        {c.bio && <p style="margin-bottom:12px">{c.bio}</p>}
+        <a class="text-link" href={url(c.href)}>View Committee profile →</a>
+      </section>
+    ))}
+  </div>
+  <div class="stack" style="margin-top:48px"><Ctas /></div>
+</Base>

@@ -1,0 +1,9 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ArticleIndex from '../../../components/ArticleIndex.astro';
+import { SECTIONS, getArticles } from '../../../lib/site';
+export const getStaticPaths = () => SECTIONS.map((section) => ({ params: { section: section.toLowerCase() }, props: { section } }));
+const { section } = Astro.props;
+const articles = (await getArticles()).filter((a) => a.data.section === section);
+---
+<Base title={section} current="Articles"><ArticleIndex articles={articles} section={section} /></Base>

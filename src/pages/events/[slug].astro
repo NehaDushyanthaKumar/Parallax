@@ -1,0 +1,22 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Ctas from '../../components/Ctas.astro';
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((event) => ({ params: { slug: event.id }, props: { event } }));
+}
+const { event } = Astro.props;
+const { Content } = await render(event);
+const when = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full' }).format(event.data.date);
+---
+<Base title={event.data.title} description={event.data.summary} current="Events">
+  <Crumbs items={[['Home', '/'], ['Events', '/events/'], ['Upcoming events', '/events/upcoming/'], [event.data.title]]} />
+  <h1>{event.data.title}</h1>
+  <p class="lede">{when}{event.data.time && ` · ${event.data.time}`}{event.data.venue && ` · ${event.data.venue}`}</p>
+  <p style="margin:24px 0">{event.data.summary}</p>
+  {event.data.signupUrl && <a class="btn" href={event.data.signupUrl}>Join this event</a>}
+  <div style="margin-top:32px"><Content /></div>
+  <div class="stack" style="margin-top:48px"><Ctas /></div>
+</Base>

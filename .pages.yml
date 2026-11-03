@@ -1,0 +1,89 @@
+media:
+  input: public/images
+  output: /images
+  categories: [image]
+
+content:
+  - name: articles
+    label: Articles
+    type: collection
+    path: src/content/articles
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: summary, label: Short summary (shown on cards), type: text, required: true }
+      - { name: author, label: "Author (must match the writer's name exactly)", type: string, required: true }
+      - name: section
+        label: Section
+        type: select
+        required: true
+        options: { values: [Features, News, Perspectives, Profiles] }
+      - { name: topic, label: "Topic, e.g. Ecology", type: string, required: true }
+      - { name: date, label: Publication date, type: date, required: true }
+      - { name: image, label: Main image, type: image, required: true }
+      - { name: imageAlt, label: Image description for screen readers, type: string, required: true }
+      - { name: featured, label: Feature on the homepage, type: boolean }
+      - { name: draft, label: "Draft (tick to keep it off the website)", type: boolean }
+      - { name: body, label: Article text, type: rich-text, required: true }
+
+  - name: writers
+    label: Writers
+    type: collection
+    path: src/content/writers
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view: { primary: name }
+    fields:
+      - { name: name, label: Name, type: string, required: true }
+      - { name: role, label: Role, type: string }
+      - { name: portrait, label: Portrait, type: image }
+      - { name: body, label: Biography, type: rich-text }
+
+  - name: committee
+    label: Committee
+    type: collection
+    path: src/content/committee
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view: { primary: name }
+    fields:
+      - { name: name, label: Name, type: string, required: true }
+      - { name: role, label: Committee role, type: string, required: true }
+      - { name: portrait, label: Portrait, type: image }
+      - { name: body, label: Biography, type: rich-text }
+
+  - name: events
+    label: Events
+    type: collection
+    path: src/content/events
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: time, label: Time, type: string }
+      - { name: venue, label: Venue, type: string }
+      - { name: summary, label: Short summary, type: text, required: true }
+      - { name: signupUrl, label: Sign-up link, type: string }
+      - { name: body, label: Event details, type: rich-text }
+
+  - name: site
+    label: Form and social links
+    type: file
+    path: src/data/site.json
+    format: json
+    fields:
+      - { name: uploadArticleUrl, label: Article submission form link, type: string }
+      - { name: newsletterUrl, label: Newsletter sign-up link, type: string }
+      - { name: joinCommitteeUrl, label: Join the committee form link, type: string }
+      - { name: designForUsUrl, label: Design for us form link, type: string }
+      - { name: instagramUrl, label: Instagram link, type: string }

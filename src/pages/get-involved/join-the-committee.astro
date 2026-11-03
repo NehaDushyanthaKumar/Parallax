@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Ctas from '../../components/Ctas.astro';
+import { links } from '../../lib/site';
+---
+<Base title="Join the committee" current="Get involved">
+  <Crumbs items={[['Home', '/'], ['Get involved', '/get-involved/'], ['Join the committee']]} />
+  <h1 style="margin-bottom:24px">Join the committee</h1>
+  <a class="btn" href={links.join}>Join the committee</a>
+  <div class="stack" style="margin-top:48px"><Ctas /></div>
+</Base>

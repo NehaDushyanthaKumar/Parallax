@@ -1,0 +1,10 @@
+---
+import { url } from '../lib/site';
+const { src, name } = Astro.props;
+---
+{src
+  ? <img class="portrait" src={url(src)} alt={`Portrait of ${name}`} loading="lazy" />
+  : <div class="portrait">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+      <span>Portrait pending</span>
+    </div>}

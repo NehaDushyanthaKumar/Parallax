@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import Ctas from '../components/Ctas.astro';
+import { articlePath, getArticles, url } from '../lib/site';
+const articles = await getArticles();
+const lead = articles.find((a) => a.data.featured) ?? articles[0];
+---
+<Base current="Home">
+  <div class="masthead">
+    <img src={url('/images/logo-mark.png')} alt="PARALLAX logo" />
+    <div><h1>PARALLAX</h1><p>University of St Andrews Science Magazine</p></div>
+  </div>
+  {lead && (
+    <section class="hero">
+      <a href={url(articlePath(lead))} tabindex="-1" aria-hidden="true"><img src={url(lead.data.image)} alt="" /></a>
+      <div>
+        <p class="eyebrow">Featured story / {lead.data.topic}</p>
+        <h2>{lead.data.title}</h2>
+        <p>{lead.data.summary}</p>
+        <p class="by">{lead.data.author}</p>
+        <a class="btn btn-light" href={url(articlePath(lead))}>Read Article</a>
+      </div>
+    </section>
+  )}
+  <hr class="rule" />
+  <div class="stack">
+    <section>
+      <div class="head-row"><h2 class="section-title">Latest articles</h2><a class="text-link" href={url('/articles/')}>View all →</a></div>
+      <div class="grid-2">{articles.slice(0, 4).map((article) => <ArticleCard article={article} tags={false} />)}</div>
+    </section>
+    <Ctas show={['submit', 'newsletter']} />
+  </div>
+</Base>

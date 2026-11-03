@@ -1,0 +1,9 @@
+---
+import { url } from '../lib/site';
+const { items } = Astro.props; // [[label, href?], ...]
+---
+<nav class="crumbs" aria-label="Breadcrumb">
+  {items.map(([label, href]: [string, string?], i: number) => (
+    <>{i > 0 && ' / '}{href ? <a href={url(href)}>{label}</a> : <span>{label}</span>}</>
+  ))}
+</nav>

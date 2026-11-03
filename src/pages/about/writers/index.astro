@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Crumbs from '../../../components/Crumbs.astro';
+import Ctas from '../../../components/Ctas.astro';
+import Portrait from '../../../components/Portrait.astro';
+import { articlePath, getArticles, url } from '../../../lib/site';
+const writers = await getCollection('writers');
+const articles = await getArticles();
+const cards = writers
+  .map((writer) => ({ writer, latest: articles.find((a) => a.data.author === writer.data.name) }))
+  .sort((a, b) => (b.latest?.data.date.getTime() ?? 0) - (a.latest?.data.date.getTime() ?? 0));
+---
+<Base title="Meet the writers" current="About us">
+  <Crumbs items={[['Home', '/'], ['About us', '/about/'], ['Meet the writers']]} />
+  <h1>Meet the writers</h1>
+  <hr class="rule" />
+  <h2 class="section-title" style="margin-bottom:20px">Our writers</h2>
+  <div class="grid-2">
+    {cards.map(({ writer, latest }) => (
+      <section class="person">
+        <Portrait src={writer.data.portrait} name={writer.data.name} />
+        <h3>{writer.data.name}</h3>
+        <a class="text-link" href={url(`/about/writers/${writer.id}/`)}>View writer profile →</a>
+        {latest && (<>
+          <hr class="rule" style="margin:16px 0" />
+          <p class="eyebrow" style="margin-bottom:12px">Most recent submission</p>
+          <h3 style="font-size:18px;margin:0"><a href={url(articlePath(latest))} style="text-decoration:none">{latest.data.title}</a></h3>
+        </>)}
+      </section>
+    ))}
+  </div>
+  <h2 class="section-title" style="margin:48px 0 12px">Could your story be next?</h2>
+  <p style="margin-bottom:16px">Find out how to develop an idea and contribute science writing to the magazine.</p>
+  <p><a class="text-link" href={url('/get-involved/write-for-us/')}>Write for us →</a></p>
+  <p style="margin-top:8px"><a class="text-link" href={url('/about/')}>Back to About us →</a></p>
+  <div class="stack" style="margin-top:40px"><Ctas /></div>
+</Base>

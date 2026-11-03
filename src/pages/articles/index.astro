@@ -1,0 +1,7 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleIndex from '../../components/ArticleIndex.astro';
+import { getArticles } from '../../lib/site';
+const articles = await getArticles();
+---
+<Base title="Articles" current="Articles"><ArticleIndex articles={articles} /></Base>

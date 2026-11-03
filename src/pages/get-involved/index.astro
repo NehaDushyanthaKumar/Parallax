@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import Ctas from '../../components/Ctas.astro';
+import { links, url } from '../../lib/site';
+const ways = [
+  ['Write for us', 'Explore writing for PARALLAX and sharing science stories, features and perspectives.', links.upload, 'Upload article →', '/get-involved/write-for-us/'],
+  ['Join the committee', 'Help shape the direction of PARALLAX. Committee members contribute to editorial decisions, event planning and the broader conversation about what we cover and how.', url('/get-involved/join-the-committee/'), 'Join the committee →', '/get-involved/join-the-committee/'],
+  ['Design for us (new)', 'We are building our visual identity and digital presence. If you work in graphic design, illustration, photography or web design, we would love to hear from you.', url('/get-involved/design-for-us/'), 'Design for us →', '/get-involved/design-for-us/'],
+];
+---
+<Base title="Get involved" current="Get involved">
+  <p class="eyebrow" style="font-size:22px">Be part of PARALLAX</p>
+  <hr class="rule" style="margin-top:28px" />
+  <h1 class="section-title" style="font-size:28px;margin-bottom:24px">Ways to get involved</h1>
+  <div class="stack">
+    <div class="grid-3">
+      {ways.map(([title, text, href, label, page]) => (
+        <section class="outline"><h2><a href={url(page)} style="text-decoration:none">{title}</a></h2><p>{text}</p><a class="btn" href={href}>{label}</a></section>
+      ))}
+    </div>
+    <Ctas show={['newsletter', 'join']} />
+  </div>
+</Base>

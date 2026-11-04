@@ -160,3 +160,17 @@ main.wrap { padding-block: 48px 64px; }
   .profile h1 { font-size: 34px; }
   .section-title { font-size: 24px; }
 }
+
+   /* Homepage title slides in and out from behind the logo */
+   .masthead { overflow: hidden; }
+   .masthead img { position: relative; z-index: 1; flex: none; background: var(--accent); }
+   .masthead > div { animation: title-slide 8s ease-in-out infinite; }
+   .masthead:hover > div { animation-play-state: paused; }
+   @keyframes title-slide {
+     0%, 45% { transform: translateX(0); }
+     60%, 70% { transform: translateX(calc(-100% - 120px)); }
+     85%, 100% { transform: translateX(0); }
+   }
+   @media (prefers-reduced-motion: reduce) {
+     .masthead > div { animation: none; }
+   }

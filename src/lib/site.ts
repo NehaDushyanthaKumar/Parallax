@@ -28,9 +28,20 @@ export async function getArticles() {
   return all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
+/** Reduce a name to lowercase words, ignoring case, dots, extra spaces and middle names or initials. */
+function nameKey(name: string) {
+  const words = name.toLowerCase().replace(/[.,]/g, ' ').split(/\s+/).filter(Boolean);
+  return words.length > 1 ? `${words[0]} ${words[words.length - 1]}` : words.join(' ');
+}
+
+/** True when an article's author and a writer profile name refer to the same person. */
+export function sameWriter(author: string, name: string) {
+  return nameKey(author) === nameKey(name);
+}
+
 /** Link to a writer's page, or null if no writer profile matches the author's name. */
 export async function writerPath(author: string) {
   const writers = await getCollection('writers');
-  const match = writers.find((w) => w.data.name === author);
+  const match = writers.find((w) => sameWriter(author, w.data.name));
   return match ? `/about/writers/${match.id}/` : null;
 }

@@ -4,11 +4,11 @@ import Base from '../../../layouts/Base.astro';
 import Crumbs from '../../../components/Crumbs.astro';
 import Ctas from '../../../components/Ctas.astro';
 import Portrait from '../../../components/Portrait.astro';
-import { articlePath, getArticles, url } from '../../../lib/site';
+import { articlePath, getArticles, sameWriter, url } from '../../../lib/site';
 const writers = await getCollection('writers');
 const articles = await getArticles();
 const cards = writers
-  .map((writer) => ({ writer, latest: articles.find((a) => a.data.author === writer.data.name) }))
+  .map((writer) => ({ writer, latest: articles.find((a) => sameWriter(a.data.author, writer.data.name)) }))
   .sort((a, b) => (b.latest?.data.date.getTime() ?? 0) - (a.latest?.data.date.getTime() ?? 0));
 ---
 <Base title="Meet the writers" current="About us">

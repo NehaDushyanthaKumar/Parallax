@@ -4,7 +4,7 @@ import Base from '../../../layouts/Base.astro';
 import Crumbs from '../../../components/Crumbs.astro';
 import Ctas from '../../../components/Ctas.astro';
 import Portrait from '../../../components/Portrait.astro';
-import { articlePath, getArticles, url } from '../../../lib/site';
+import { articlePath, getArticles, sameWriter, url } from '../../../lib/site';
 export async function getStaticPaths() {
   const writers = await getCollection('writers');
   return writers.map((writer) => ({ params: { slug: writer.id }, props: { writer } }));
@@ -13,7 +13,7 @@ const { writer } = Astro.props;
 const { name, role, portrait } = writer.data;
 const first = name.split(' ')[0];
 const { Content } = await render(writer);
-const articles = (await getArticles()).filter((a) => a.data.author === name);
+const articles = (await getArticles()).filter((a) => sameWriter(a.data.author, name));
 ---
 <Base title={name} current="About us">
   <Crumbs items={[['Home', '/'], ['About us', '/about/'], ['Meet the writers', '/about/writers/'], [name]]} />

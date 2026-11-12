@@ -2,9 +2,10 @@
 import Base from '../layouts/Base.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import Ctas from '../components/Ctas.astro';
-import { articlePath, getArticles, url } from '../lib/site';
+import { articlePath, getArticles, url, writerPath } from '../lib/site';
 const articles = await getArticles();
 const lead = articles.find((a) => a.data.featured) ?? articles[0];
+const leadAuthor = lead ? await writerPath(lead.data.author) : null;
 ---
 <Base current="Home">
   <div class="masthead">
@@ -18,7 +19,7 @@ const lead = articles.find((a) => a.data.featured) ?? articles[0];
         <p class="eyebrow">Featured story / {lead.data.topic}</p>
         <h2>{lead.data.title}</h2>
         <p>{lead.data.summary}</p>
-        <p class="by">{lead.data.author}</p>
+        <p class="by">{leadAuthor ? <a href={url(leadAuthor)}>{lead.data.author}</a> : lead.data.author}</p>
         <a class="btn btn-light" href={url(articlePath(lead))}>Read Article</a>
       </div>
     </section>

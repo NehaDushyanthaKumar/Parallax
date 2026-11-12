@@ -16,8 +16,8 @@ const nav = [
   <title>{title ? `${title} | PARALLAX` : 'PARALLAX | University of St Andrews Science Magazine'}</title>
   <meta name="description" content={description} />
   <style is:inline set:html={`
-    html { cursor: url("${url('/images/cursor.png')}") 0 0, auto !important; }
-    a, button, select, .btn, .menu-toggle { cursor: url("${url('/images/cursor.png')}") 0 0, pointer !important; }
+    html, body, * { cursor: url("${url('/images/cursor.png')}") 16 16, auto !important; }
+    a, button, select, summary, label, [role="button"], .btn, .menu-toggle, a *, button * { cursor: url("${url('/images/cursor.png')}") 16 16, pointer !important; }
   `} />
 </head>
 <body>

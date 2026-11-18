@@ -12,7 +12,7 @@ const heading = section ?? 'Articles';
   <form class="js-search" role="search">
     <label for="q">Search articles</label>
     <div class="search-row">
-      <input id="q" type="search" placeholder="Search by title, topic or author" />
+      <input id="q" type="search" placeholder="Search for any word or phrase" />
       <button class="btn" type="submit">Search</button>
     </div>
   </form>
@@ -28,12 +28,12 @@ const heading = section ?? 'Articles';
   <label>Sort by:<select class="js-sort"><option value="new">Newest first</option><option value="old">Oldest first</option></select></label>
 </div>
 <div class="stack">
-  {articles.length > 0 && <div class="grid-2 js-list">{articles.map((article) => <ArticleCard article={article} />)}</div>}
+  {articles.length > 0 && <div class="grid-2 js-list">{articles.map((article) => <ArticleCard article={article} fullText />)}</div>}
   <section class="panel js-empty" hidden={articles.length > 0}>
     <h2>{articles.length ? 'No matching articles' : `No ${heading.toLowerCase()} articles yet`}</h2>
-    <p>{articles.length ? 'Try a different title, topic or author.' : `New ${heading.toLowerCase()} will appear here when they are added. Explore our Features or sign up to the newsletter for updates.`}</p>
+    <p>{articles.length ? 'Try a different word or phrase.' : `New ${heading.toLowerCase()} will appear here when they are added. Explore our Features or sign up to the newsletter for updates.`}</p>
   </section>
-  <Ctas show={['submit', 'newsletter']} />
+  <Ctas show={['submit']} />
 </div>
 <script>
   const list = document.querySelector('.js-list');
@@ -43,10 +43,12 @@ const heading = section ?? 'Articles';
   const total = Number(count?.dataset.total ?? 0);
   const apply = () => {
     if (!list || !count || !empty || !input) return;
-    const q = input.value.trim().toLowerCase();
+    // Every word typed must appear somewhere in the article (title, summary, author or text).
+    const words = input.value.toLowerCase().replace(/[‘’]/g, "'").split(/\s+/).filter(Boolean);
     let shown = 0;
     list.querySelectorAll<HTMLElement>('.card').forEach((card) => {
-      const match = (card.dataset.search ?? '').includes(q);
+      const text = card.dataset.search ?? '';
+      const match = words.every((word) => text.includes(word));
       card.hidden = !match;
       if (match) shown += 1;
     });

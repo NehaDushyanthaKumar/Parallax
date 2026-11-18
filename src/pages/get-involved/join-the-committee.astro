@@ -3,10 +3,25 @@ import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
 import Ctas from '../../components/Ctas.astro';
 import { links } from '../../lib/site';
+const roles = [
+  ['Editors', 'As an editor, you will collaborate with writers to develop their ideas from an initial pitch to publication-ready articles. The role is flexible, and we can tailor it to suit your availability- you can take on as much or as little as you wish!'],
+  ['Events team', 'As part of the events team, you’ll be responsible for organising and bringing the magazine’s social event to life. This will involve coming up with fun, creative event ideas as well as helping to plan and run events currently in the works.'],
+  ['Treasurer', 'As treasurer, you will manage the magazine’s finances which will involve being responsible for the society bank account, overseeing the magazine’s expenses, monitoring membership fees and applying for extra funding and grants.'],
+  ['Marketing team', 'As part of the marketing team, you’ll help promote the magazine and share articles, events and opportunities through social media!'],
+];
 ---
 <Base title="Join the committee" current="Get involved">
   <Crumbs items={[['Home', '/'], ['Get involved', '/get-involved/'], ['Join the committee']]} />
-  <h1 style="margin-bottom:24px">Join the committee</h1>
-  <a class="btn" href={links.join}>Join the committee</a>
+  <h1>Join the committee</h1>
+  <hr class="rule" />
+  <p style="margin-bottom:20px">Want to get more involved in PARALLAX? Well great news... we have open positions!</p>
+  <h2 class="section-title" style="margin:40px 0 24px">We’re currently looking for:</h2>
+  <div class="grid-2">
+    {roles.map(([title, text]) => (
+      <section class="outline"><h3>{title}</h3><p style="margin-bottom:0">{text}</p></section>
+    ))}
+  </div>
+  <p style="margin:32px 0 28px">If you’re interested fill in the form below!</p>
+  <a class="btn" href={links.join}>Click here to apply!</a>
   <div class="stack" style="margin-top:48px"><Ctas /></div>
 </Base>

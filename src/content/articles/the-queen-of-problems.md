@@ -7,7 +7,7 @@ author: Ellie Smith
 section: Features
 topic: Evolution
 date: 2026-01-01
-image: /images/Picture2-1.jpg
+image: /images/Screenshot%202026-11-18%20at%2010.13.09PM.png
 featured: false
 draft: false
 ---

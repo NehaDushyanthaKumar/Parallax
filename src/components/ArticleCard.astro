@@ -1,10 +1,13 @@
 ---
 import { articlePath, url, writerPath, type Article } from '../lib/site';
-const { article, tags = true } = Astro.props as { article: Article; tags?: boolean };
+const { article, tags = true, fullText = false } = Astro.props as { article: Article; tags?: boolean; fullText?: boolean };
 const { data } = article;
 const author = await writerPath(data.author);
+// Plain text of the article body, without link URLs or markdown symbols, so search can match any word in it.
+const bodyText = fullText ? (article.body ?? '').replace(/\]\((?:[^()]|\([^)]*\))*\)/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/[#*_>`\[\]]/g, ' ').replace(/\s+/g, ' ') : '';
+const searchText = `${data.title} ${data.summary} ${data.topic} ${data.section} ${data.author} ${bodyText}`.toLowerCase().replace(/[‘’]/g, "'");
 ---
-<article class="card" data-search={`${data.title} ${data.summary} ${data.topic} ${data.author}`.toLowerCase()} data-date={data.date.getTime()}>
+<article class="card" data-search={searchText} data-date={data.date.getTime()}>
   <a href={url(articlePath(article))} tabindex="-1" aria-hidden="true"><img src={url(data.image)} alt="" loading="lazy" /></a>
   {tags
     ? <div class="card-meta"><span class="tag tag-solid">{data.section}</span><span class="tag">{data.topic}</span></div>

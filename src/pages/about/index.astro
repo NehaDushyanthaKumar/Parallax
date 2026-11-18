@@ -1,13 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
-import Ctas from '../../components/Ctas.astro';
-import { url } from '../../lib/site';
+import { links, url } from '../../lib/site';
 ---
 <Base title="About us" current="About us">
   <Crumbs items={[['Home', '/'], ['About us']]} />
   <h1>About us</h1>
-  <p class="lede">PARALLAX is St Andrews science magazine: a place for scientific ideas, thoughtful questions and fresh perspectives.</p>
+  <p class="lede" style="max-width:860px;line-height:1.6">PARALLAX is the new student-led science magazine at the University of St Andrews! We explore scientific concepts, emerging research, and the intersection of science and society across a broad range of disciplines. We aim to communicate science in an accessible, engaging and thought-provoking way. To keep up to date with our latest articles and upcoming events, follow us on <a href={links.instagram}>Instagram</a> or <a href={links.newsletter}>sign up to our mailing list</a>!</p>
   <hr class="rule" />
   <h2 class="section-title" style="margin-bottom:20px">PARALLAX</h2>
   <div class="stack">
@@ -15,6 +14,6 @@ import { url } from '../../lib/site';
       <section class="outline"><p class="eyebrow">Behind the magazine</p><h2 style="margin-top:12px">Meet the team</h2><a class="text-link" href={url('/about/team/')}>Meet the team →</a></section>
       <section class="outline"><p class="eyebrow">The voices in our articles</p><h2 style="margin-top:12px">Meet the writers</h2><a class="text-link" href={url('/about/writers/')}>Meet the writers →</a></section>
     </div>
-    <Ctas show={['join', 'newsletter']} />
+    <p><a class="btn" href={url('/get-involved/')}>Want to get involved? Click here!</a></p>
   </div>
 </Base>

@@ -26,10 +26,11 @@ const leadAuthor = lead ? await writerPath(lead.data.author) : null;
   )}
   <hr class="rule" />
   <div class="stack">
+    <Ctas show={['submit']} />
     <section>
       <div class="head-row"><h2 class="section-title">Latest articles</h2><a class="text-link" href={url('/articles/')}>View all →</a></div>
       <div class="grid-2">{articles.slice(0, 4).map((article) => <ArticleCard article={article} tags={false} />)}</div>
     </section>
-    <Ctas show={['submit', 'newsletter']} />
+    <Ctas show={['newsletter']} />
   </div>
 </Base>

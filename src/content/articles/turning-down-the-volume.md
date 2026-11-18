@@ -7,7 +7,7 @@ author: Melissa E Ramsay
 section: Features
 topic: Ecology
 date: 2026-02-01
-image: /images/Picture1.jpg
+image: /images/gerald-schombs-mM_e5LFdTp0-unsplash.jpg
 featured: true
 draft: false
 ---

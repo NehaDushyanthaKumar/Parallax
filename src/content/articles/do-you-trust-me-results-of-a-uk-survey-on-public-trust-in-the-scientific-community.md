@@ -7,7 +7,7 @@ author: Ellie Smith
 section: News
 topic: Science Policy
 date: 2026-11-18
-image: /images/1.jpeg
+image: /images/1.avif
 featured: true
 draft: false
 ---

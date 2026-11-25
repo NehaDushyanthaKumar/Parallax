@@ -174,3 +174,6 @@ main.wrap { padding-block: 48px 64px; }
    @media (prefers-reduced-motion: reduce) {
      .masthead > div { animation: none; }
    }
+
+/* Keep Melissa's face in frame when her square portrait is cropped */
+.portrait[src$="MelissaRamsay_Eastbioprofile.jpg"] { object-position: 50% 0%; }

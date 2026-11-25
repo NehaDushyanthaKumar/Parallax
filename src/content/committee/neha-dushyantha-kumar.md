@@ -1,5 +1,5 @@
 ---
-name: Neha Dushyantha Kumar
+name: Neha Dushyantha Kumar (she/her)
 role: Web Master
 portrait: /images/profile.jpg
 ---

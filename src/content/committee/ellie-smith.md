@@ -1,5 +1,5 @@
 ---
-name: Ellie Smith
+name: Ellie Smith (she/her)
 role: President
 portrait: /images/profile-pic.jpg
 ---

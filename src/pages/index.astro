@@ -12,6 +12,12 @@ const leadAuthor = lead ? await writerPath(lead.data.author) : null;
     <img src={url('/images/logo-filled-on-magenta.png')} alt="PARALLAX logo" />
     <div><h1>PARALLAX</h1><p>University of St Andrews Science Magazine</p></div>
   </div>
+  <form class="home-search" role="search" action={url('/search/')} method="get">
+    <div class="search-row">
+      <input name="q" type="search" aria-label="Search the website" placeholder="Search articles, writers, events and pages" />
+      <button class="btn" type="submit">Search</button>
+    </div>
+  </form>
   {lead && (
     <section class="hero">
       <a href={url(articlePath(lead))} tabindex="-1" aria-hidden="true"><img src={url(lead.data.image)} alt="" /></a>
@@ -34,3 +40,8 @@ const leadAuthor = lead ? await writerPath(lead.data.author) : null;
     <Ctas show={['newsletter']} />
   </div>
 </Base>
+
+<style>
+  .home-search { margin: -24px 0 40px; }
+  .home-search .search-row { margin-bottom: 0; }
+</style>

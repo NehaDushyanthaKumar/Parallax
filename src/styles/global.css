@@ -56,7 +56,8 @@ main.wrap { padding-block: 48px 64px; }
 .nav a { text-decoration: none; }
 .nav a:hover, .nav a[aria-current] { text-decoration: underline; text-underline-offset: 4px; }
 .nav a[aria-current] { font-weight: 700; }
-.nav .subscribe { background: var(--white); color: var(--ink); padding: 11px 18px; font-weight: 600; }
+.nav .subscribe { display: grid; place-items: center; width: 40px; height: 40px; background: var(--white); color: var(--ink); }
+.nav .subscribe svg { width: 20px; height: 20px; }
 .menu-toggle { display: none; }
 .nav { margin-left: auto; }
 .theme-toggle { display: grid; place-items: center; flex: none; width: 40px; height: 40px; padding: 0; background: none; border: 1px solid rgba(255,255,255,.6); color: var(--on-accent); cursor: pointer; }

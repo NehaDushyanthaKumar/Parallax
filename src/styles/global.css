@@ -94,7 +94,7 @@ main.wrap { padding-block: 48px 64px; }
 
 /* Masthead and hero */
 .masthead { display: flex; align-items: center; gap: 24px; margin-bottom: 48px; }
-.masthead img { width: 96px; height: 96px; object-fit: contain; }
+.masthead img { width: 128px; height: 128px; padding: 16px; object-fit: contain; }
 .masthead h1 { font-size: 52px; line-height: 1.1; letter-spacing: .01em; }
 .masthead p { color: var(--accent); margin-top: 4px; }
 .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -181,7 +181,7 @@ main.wrap { padding-block: 48px 64px; }
   .menu-toggle { order: 2; }
   .nav { order: 3; margin-left: 0; }
   .grid-2, .grid-3, .footer-cols, .profile, .writer-article { grid-template-columns: minmax(0, 1fr); }
-  .masthead img { width: 64px; height: 64px; }
+  .masthead img { width: 88px; height: 88px; padding: 12px; }
   .masthead h1 { font-size: 36px; }
   .hero h2 { font-size: 30px; }
   .card img, .related .card img { aspect-ratio: 1.55; }

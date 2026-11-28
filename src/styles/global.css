@@ -61,6 +61,11 @@ main.wrap { padding-block: 48px 64px; }
 .nav { margin-left: auto; }
 .theme-toggle { display: grid; place-items: center; flex: none; width: 40px; height: 40px; padding: 0; background: none; border: 1px solid rgba(255,255,255,.6); color: var(--on-accent); cursor: pointer; }
 .theme-toggle:hover { background: rgba(255,255,255,.15); }
+/* Search icon in the header, styled to match the day/night button */
+.search-link { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.6); color: var(--on-accent); }
+.search-link:hover { background: rgba(255,255,255,.15); }
+.search-link svg { width: 20px; height: 20px; }
+.search-link + .theme-toggle { margin-left: -12px; }
 .theme-toggle svg { width: 20px; height: 20px; }
 .theme-toggle .icon-sun { display: none; }
 :root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
@@ -178,6 +183,7 @@ main.wrap { padding-block: 48px 64px; }
   .nav.open { display: flex; }
   .brand { margin-right: auto; }
   .theme-toggle { order: 1; width: 36px; height: 36px; }
+  .search-link { order: 1; width: 36px; height: 36px; }
   .menu-toggle { order: 2; }
   .nav { order: 3; margin-left: 0; }
   .grid-2, .grid-3, .footer-cols, .profile, .writer-article { grid-template-columns: minmax(0, 1fr); }

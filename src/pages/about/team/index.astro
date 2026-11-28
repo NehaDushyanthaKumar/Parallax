@@ -5,7 +5,11 @@ import Crumbs from '../../../components/Crumbs.astro';
 import Ctas from '../../../components/Ctas.astro';
 import Portrait from '../../../components/Portrait.astro';
 import { url } from '../../../lib/site';
-const members = await getCollection('committee');
+// Order on this page, using the file names in src/content/committee/ (without .md).
+// Anyone not listed appears after these, in alphabetical order.
+const ORDER = ['ellie-smith', 'isi-smy-theythemsheher', 'melissa-ramsay-sheher', 'neha-dushyantha-kumar', 'bhani-kaur-sheher'];
+const rank = (id: string) => (ORDER.includes(id) ? ORDER.indexOf(id) : ORDER.length);
+const members = (await getCollection('committee')).sort((a, b) => rank(a.id) - rank(b.id) || a.id.localeCompare(b.id));
 const cards = members.length
   ? members.map((m) => ({ name: m.data.name, role: m.data.role, portrait: m.data.portrait, bio: '', href: `/about/team/${m.id}/` }))
   : [1, 2, 3].map(() => ({ name: 'Committee member name', role: 'Committee role', portrait: null, bio: 'Name and role pending.', href: '/about/team/committee-member/' }));

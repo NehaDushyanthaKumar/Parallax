@@ -10,6 +10,8 @@ import { url } from '../../../lib/site';
 const ORDER = ['ellie-smith', 'isi-smy-theythemsheher', 'melissa-ramsay-sheher', 'neha-dushyantha-kumar', 'bhani-kaur-sheher'];
 const rank = (id: string) => (ORDER.includes(id) ? ORDER.indexOf(id) : ORDER.length);
 const members = (await getCollection('committee')).sort((a, b) => rank(a.id) - rank(b.id) || a.id.localeCompare(b.id));
+// Split "Name (pronouns)" so the pronouns can be shown in regular weight.
+const splitName = (name: string) => { const m = name.match(/^(.*?)\s*(\([^)]*\))$/); return m ? [m[1], m[2]] : [name, '']; };
 const cards = members.length
   ? members.map((m) => ({ name: m.data.name, role: m.data.role, portrait: m.data.portrait, bio: '', href: `/about/team/${m.id}/` }))
   : [1, 2, 3].map(() => ({ name: 'Committee member name', role: 'Committee role', portrait: null, bio: 'Name and role pending.', href: '/about/team/committee-member/' }));
@@ -23,12 +25,16 @@ const cards = members.length
     {cards.map((c) => (
       <section class="person">
         <Portrait src={c.portrait} name={c.name} />
-        <h3>{c.name}</h3>
+        <h3>{splitName(c.name)[0]}{splitName(c.name)[1] && <span class="pronouns"> {splitName(c.name)[1]}</span>}</h3>
         <p class="eyebrow" style="margin-bottom:12px">{c.role}</p>
         {c.bio && <p style="margin-bottom:12px">{c.bio}</p>}
         <a class="text-link" href={url(c.href)}>View Committee profile →</a>
       </section>
     ))}
   </div>
-  <div class="stack" style="margin-top:48px"><Ctas /></div>
+  <div class="stack" style="margin-top:48px"><Ctas show={['join']} /></div>
 </Base>
+
+<style>
+  .pronouns { font-weight: 400; }
+</style>

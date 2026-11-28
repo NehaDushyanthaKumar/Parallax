@@ -5,8 +5,8 @@ import Ctas from '../../components/Ctas.astro';
 import { links } from '../../lib/site';
 const categories = [
   ['Features', 'Features are long-form, in-depth articles that explore a scientific topic, area of research or the contributions of a specific researcher. Typically 1000-2000 words.'],
-  ['News', 'News pieces are shorter articles that cover recent developments in science, including newly published research, scientific policy decisions, legislative changes and significant global events with scientific relevance. Typically, 400-700 words.'],
-  ['Perspectives', 'Perspective articles critically explore debates and issues in science. This can be research practises, the societal consequences of scientific developments or academic culture. These articles can argue for or against a particular position or explore multiple viewpoints of an ongoing debate. Typically, 900-1200 words.'],
+  ['News', 'News pieces are shorter articles that cover recent developments in science, including newly published research, scientific policy decisions, legislative changes and significant global events with scientific relevance. Typically 400-700 words.'],
+  ['Perspectives', 'Perspective articles critically explore debates and issues in science. This can be research practises, the societal consequences of scientific developments or academic culture. These articles can argue for or against a particular position or explore multiple viewpoints of an ongoing debate. Typically 900-1200 words.'],
   ['Profiles', 'Profiles are interview-based pieces that engage with a scientist of your choosing. The focus is flexible; you could explore their path into science, the details of their research or their advice for aspiring scientists. Typically 600-1000 words.'],
 ];
 ---
@@ -14,17 +14,24 @@ const categories = [
   <Crumbs items={[['Home', '/'], ['Get involved', '/get-involved/'], ['Write for us']]} />
   <h1>Write for us</h1>
   <hr class="rule" />
-  <div>
-    <p style="margin-bottom:20px">Have a topic you’d love to write about? Pitch to us! Articles can be on any science related topic- whether that’s a deep dive into a scientific concept, explaining a recent paper, or more opinion-based pieces to do with science and society- any ideas are welcome!</p>
+  <div class="wfu-intro">
+    <p style="margin-bottom:20px">Have a topic you’d love to write about? Pitch to us! Articles can be on any science related topic- whether that’s a deep dive into a scientific concept, explaining a recent paper, or a more opinion-based piece exploring science and society- any ideas are welcome!</p>
+    <p style="margin-bottom:20px">Whether you want to write one article or twenty, anyone can write for us!</p>
     <p style="margin-bottom:28px">We also accept more creative submissions like short fiction, comic strips, science themed jokes, puzzles- wherever your imagination takes you!</p>
-    <a class="btn" href={links.upload}>Click here to pitch to us!</a>
+    <p class="wfu-pitch"><a class="btn" href={links.upload}>Click here to pitch to us!</a></p>
   </div>
   <h2 class="section-title" style="margin:56px 0 24px">Our articles typically fit into one of four categories:</h2>
   <div class="grid-2">
     {categories.map(([title, text]) => (
-      <section class="outline"><h3>{title}</h3><p style="margin-bottom:0">{text}</p></section>
+      <section class="outline wfu-cat"><h3>{title}</h3><p style="margin-bottom:0">{text}</p></section>
     ))}
   </div>
-  <p style="margin:32px 0 48px"><a class="btn" href={links.upload}>Click here to pitch to us!</a></p>
-  <div class="stack"><Ctas show={['newsletter', 'join']} /></div>
+  <p class="wfu-pitch" style="margin:40px 0 48px"><a class="btn" href={links.upload}>Click here to pitch to us!</a></p>
+  <div class="stack"><Ctas show={['newsletter']} /></div>
 </Base>
+
+<style>
+  .wfu-intro p, .wfu-cat p { font-size: 18px; line-height: 1.6; }
+  .wfu-pitch { text-align: center; }
+  .wfu-pitch .btn { font-size: 18px; padding: 16px 32px; }
+</style>

@@ -3,4 +3,4 @@ name: "Ellie Smith"
 role: "Contributing writer"
 portrait: /images/profile-pic.jpg
 ---
-I’m a third-year biology PhD student studying asexual reproduction in fruit flies. More broadly, I’m interested in sexual conflict, collective behavior, social evolution and pretty much anything bug-related! I set up Parallax because I enjoy communicating science and wanted to create a space where people could explore and discuss topics that interest them beyond the curriculum.
+I’m a third-year biology PhD student studying asexual reproduction in fruit flies. More broadly, I’m interested in sexual conflict, collective behaviour, social evolution and pretty much anything bug-related! I enjoy writing about evolutionary biology and animal behaviour, as well as exploring how scientific research intersects with the public and policy.

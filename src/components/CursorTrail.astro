@@ -1,0 +1,80 @@
+---
+// Cursor trail: small icons that follow the pointer and fade out.
+// Day mode uses lab icons (cell, atom, molecule); night mode uses shining star images.
+// Off for touch screens and for visitors who ask for reduced motion.
+---
+<div class="cursor-trail" aria-hidden="true"></div>
+
+<style is:global>
+  .cursor-trail { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
+  .cursor-trail span { position: absolute; top: 0; left: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px; color: var(--accent); }
+  .cursor-trail svg, .cursor-trail img { display: block; width: 100%; height: 100%; }
+  .cursor-trail span.star { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+  /* faint dark halo so white stars stay visible over bright photos */
+  .cursor-trail span.star img { filter: drop-shadow(0 0 1.5px rgba(11, 31, 38, 0.7)); }
+</style>
+
+<script>
+  const layer = document.querySelector<HTMLElement>('.cursor-trail');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = matchMedia('(pointer: fine)');
+
+  // Edit these to change the icons. Each is the inside of a 24x24 SVG.
+  const icons = {
+    light: [
+      // cell
+      '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="13" cy="11" r="3" fill="currentColor"/>',
+      // atom
+      '<g fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></g><circle cx="12" cy="12" r="2" fill="currentColor"/>',
+      // molecule
+      '<g stroke="currentColor" stroke-width="2"><path d="M6 17l6-10 6 10z" fill="none"/></g><circle cx="6" cy="17" r="3" fill="currentColor"/><circle cx="12" cy="7" r="3" fill="currentColor"/><circle cx="18" cy="17" r="3" fill="currentColor"/>',
+    ],
+  };
+
+  // Night mode: shining star images (embedded so no separate image files are needed)
+  const stars = [
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAYFBMVEUAAAD///////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAw2ciRAAAAIHRSTlMACS7zUG+Qz7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGgN6NUAAAExSURBVHjajZVZEsQgCEQFm+X+Jx4wcaJZpZIyH68akNaUchNEZS0CXEN5FcQiSOAVMNRkAaRsRPmjcWpRyLl9fnBE7Lx/vXME6yC9ciNIL3mZpYIfNXcoOdYEO3ovCDAAr4IDveNCTCBiNZZYH8Esz1Q1QBXVS3I6+oBoda/xmgFPuZOTkLMaj0X2GaRZ0APL8Czz2M6gd6FMFlF7mLs2cu5jhwew49pLmIocUltKRohse0pDmZcamS+D+YPi1f5dY3LbZtWNBDQyWnZiet5H0DBByYmEaBTncpqM5Ui7J9qIYzjZgZ4GM4BpmDCP1kgbeTGPOo7m1Hn6VprHNsWp4ZlsBr86nN7O1jTBi93ez9Zw/uEf3E4W6AfWrx7IJ7bVzFi6mzewLIG8Cq7e4Pf/hB93EAfqnQzepwAAAABJRU5ErkJggg==',
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAYFBMVEUAAAD///////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAw2ciRAAAAIHRSTlMACS1P8nCvjtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKec2HYAAAEZSURBVHjardRbjsMgDAVQv83+VzyXAEmnAsJHLbVCypGNiQPRJJjpLH4P5RDyMVQm/iEE8nfICOKUttg7RDTIL4wlpK/2jqUob+TNWO2GvIDCglBz/K9ky6Zg6uaqMuy8sLq6pyWkKy8hkmR4hkV65Kg+heqlRDH8olb/gne/cJmGAK3VZdr81QvqliotIq+M/5/XTkGilKauwB6wVR87oN5Elcj2ATvNTlelC7K1PdKimejZcsCv8+kv5uN4XKevZqTErgCxtXrgS8ji9RWG1W5zWvkZClXNOhRYTYeCnoYkrc2ObObsOlMvupnHj09Bi+wm/JEaezckPXD/XZPkC+uUxF9Zu3tEz+4y3GZ0COX0CpfDK37ayB+YKgbXJ0NMXQAAAABJRU5ErkJggg==',
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAYFBMVEUAAAD///////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAw2ciRAAAAIHRSTlMACCxN8m6Or88AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJKo/f8AAAEmSURBVHjardTbsoUgCAZgATm8/xPvH0trdmZeLGfN5MUXCKws5bmIqGytfcg/h0KFfgiBlL9hVkwGSJ8Oq8FVk+hcLn27duQ6titGHFuQmcPQ8zd5oGQs1fKB/UweUMBEq4sINrOYZyJRUbUamk9+hchnruY1zMyFJ7LXIerhXqt7mHT5yJtOLWpU/Nx0hHwEBTQHw4oBH0kzGjIertnAKcxQV75RToTD30yXgKej++TaCz31kfu13wO2YoTp/9DPmAiJJmbVUa+q533EubKPiKw8gX0ygirNas1iTWYzHLnRJY2ctfQjlvmw00akmma+jRHLY6i3f26j5H5NmVYfjTmtPppLqi3dkGXAj5uiiI6bYmmLSKGt64xl634E5E1IvHczT+Ef0uIHnjTjwe0AAAAASUVORK5CYII=',
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAYFBMVEUAAAD///////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAw2ciRAAAAIHRSTlMACS7zT26OsdAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgTmx8AAAFFSURBVHjalZTbkoQwCEQD4fb/X7yNTmIck4zLg7HKU92AkFIeQYWYyov4B8jyGizvQNF87qEMgOe5xwCotbcdhrAG0p4j7yBtOXKnNdm/MHM4Wr4gT+bAWKrnMSU/YpKYaHXJtyY78RUFppYgSFmBEDEHZzVUVayB9ARFPMy84mFhPc8v4yM9i/Co4X7mOVUECF+vGWBN7yQNDYSgQ+8g3ZAmD+08dQB4ZNQWcLeTvFzP5JrWLaIrD1mms3Ua6nBB9ZatEr795NSN5mzpvOh3SmbFGbdinv3Wo43Qi7Ch6KckssqijmPZcIBwgztAJGjGq39N0MjpiZr5YZImA9mmJ/OUqLoaszLsAbOHHOdncNcr4zFuAm221ceV3OzrsNbTK+C6KHTLXaRp2XIdVSn04zpLtJBy+UF9WAzfu6sZN/g7kGfgH9iACUmBZK9YAAAAAElFTkSuQmCC',
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAYFBMVEUAAAD///////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAw2ciRAAAAIHRSTlMACS3zTm6N0K4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMSJ/tUAAAEeSURBVHjarZSLsoQgCIbll9v7P/GBrGw3M8/MMqXO+AmIQCl3ISpr8muQEqQ1EIsglkH+IUghhSXnVy5ApSZzjoo4Tcljlzo4RPumGCbgsQOQGoBHcoOSA7RyToQR2Y4HwMxehXM1ASHCIl41Zt1BGnFgV1WrMboejt7BtKtmbjV+F8a3yn5hFvVqNT5L63jwsoHBhZjrDt6MSkBuDWtseOGemvPErugbamDHsjro00W7mh68zOUyTU4fP25+UWmpMgZLm/eIn1dy0y2O4fM4OjspKvEoaTdWzyCxbGHa3hrDtz40btmjLXvGaVbOGIX9Kuip+5zixJUJK0UD41lxXUDHvF5P1FFeOkBrKaQNfG23JFjrusRrLfcfIAbgH7nZB5SLfyFDAAAAAElFTkSuQmCC',
+  ];
+
+  const SPACING = 18;   // px the pointer must travel before a new icon appears
+  const LIFETIME = 900; // ms each icon stays visible
+  const MAX = 40;       // cap on icons on screen at once
+  let lastX = -999, lastY = -999;
+
+  function spawn(x: number, y: number) {
+    if (!layer || layer.childElementCount >= MAX) return;
+    const dark = document.documentElement.dataset.theme === 'dark';
+    const pick = <T,>(list: T[]) => list[Math.floor(Math.random() * list.length)];
+    const el = document.createElement('span');
+    if (dark) {
+      el.className = 'star';
+      el.innerHTML = `<img src="${pick(stars)}" alt="" />`;
+    } else {
+      el.innerHTML = `<svg viewBox="0 0 24 24">${pick(icons.light)}</svg>`;
+    }
+    layer.appendChild(el);
+
+    const size = dark ? 0.7 + Math.random() * 0.8 : 0.6 + Math.random() * 0.6;
+    const driftX = (Math.random() - 0.5) * 30;
+    const driftY = 20 + Math.random() * 20;
+    const spin = (Math.random() - 0.5) * 180;
+    el.animate(
+      [
+        { transform: `translate(${x}px, ${y}px) scale(${size}) rotate(0deg)`, opacity: 0.9 },
+        { transform: `translate(${x + driftX}px, ${y + driftY}px) scale(0) rotate(${spin}deg)`, opacity: 0 },
+      ],
+      { duration: LIFETIME, easing: 'ease-out', fill: 'forwards' },
+    ).onfinish = () => el.remove();
+  }
+
+  window.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse' || reduced.matches || !finePointer.matches) return;
+    if (Math.hypot(e.clientX - lastX, e.clientY - lastY) < SPACING) return;
+    lastX = e.clientX; lastY = e.clientY;
+    spawn(e.clientX, e.clientY);
+  }, { passive: true });
+</script>

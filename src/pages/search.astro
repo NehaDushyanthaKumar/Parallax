@@ -47,7 +47,7 @@ const results = [...articles, ...events, ...pages, ...committee, ...writers].map
   <form class="js-site-search" role="search" action={url('/search/')} method="get">
     <label for="site-q">Search the website</label>
     <div class="search-row">
-      <input id="site-q" name="q" type="search" placeholder="Search articles, writers, events and pages" />
+      <input id="site-q" name="q" type="search" autofocus placeholder="Search articles, writers, events and pages" />
       <button class="btn" type="submit">Search</button>
     </div>
   </form>

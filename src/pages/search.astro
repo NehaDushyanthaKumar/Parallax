@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+import { articlePath, getArticles, url } from '../lib/site';
+
+// Everything the site search can find. Each entry: type, title, short summary, link, and the text to match against.
+const clean = (s = '') => s.replace(/\]\((?:[^()]|\([^)]*\))*\)/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/[#*_>`\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+const short = (s: string, n = 160) => (s.length > n ? `${s.slice(0, n).replace(/\s+\S*$/, '')}…` : s);
+
+const articles = (await getArticles()).map((a) => ({
+  type: `Article · ${a.data.section}`, title: a.data.title, summary: a.data.summary, href: articlePath(a),
+  text: `${a.data.title} ${a.data.summary} ${a.data.topic} ${a.data.section} ${a.data.author} ${clean(a.body)}`,
+}));
+const writers = (await getCollection('writers')).map((w) => ({
+  type: 'Writer', title: w.data.name, summary: short(clean(w.body)), href: `/about/writers/${w.id}/`,
+  text: `${w.data.name} ${w.data.role} writer ${clean(w.body)}`,
+}));
+const committee = (await getCollection('committee')).map((m) => ({
+  type: 'Committee', title: m.data.name, summary: m.data.role, href: `/about/team/${m.id}/`,
+  text: `${m.data.name} ${m.data.role} committee team ${clean(m.body)}`,
+}));
+const events = (await getCollection('events')).map((e) => ({
+  type: 'Event', title: e.data.title, summary: e.data.summary, href: `/events/${e.id}/`,
+  text: `${e.data.title} ${e.data.summary} ${e.data.venue ?? ''} event ${clean(e.body)}`,
+}));
+// Main pages. Add a line here when a new page should be findable.
+const pages = [
+  ['About us', 'PARALLAX is the student-led science magazine at the University of St Andrews.', '/about/', 'about mission magazine instagram newsletter'],
+  ['Meet the team', 'The PARALLAX committee.', '/about/team/', 'team committee editors'],
+  ['Meet the writers', 'The voices in our articles.', '/about/writers/', 'writers authors contributors'],
+  ['Get involved', 'Ways to take part in PARALLAX.', '/get-involved/', 'get involved join help volunteer'],
+  ['Write for us', 'Pitch an article on any science topic: features, news, perspectives, profiles or creative pieces.', '/get-involved/write-for-us/', 'write pitch submit article features news perspectives profiles fiction comics puzzles'],
+  ['Design for us', 'Graphic design, illustration, photography or web design for the magazine.', '/get-involved/design-for-us/', 'design illustration photography art artwork web'],
+  ['Join the committee', 'Open committee positions.', '/get-involved/join-the-committee/', 'join committee positions roles apply'],
+  ['Events', 'PARALLAX events.', '/events/', 'events talks socials upcoming'],
+].map(([title, summary, href, words]) => ({ type: 'Page', title, summary, href, text: `${title} ${summary} ${words}` }));
+
+const results = [...articles, ...events, ...pages, ...committee, ...writers].map((r) => ({
+  ...r, text: r.text.toLowerCase().replace(/[‘’]/g, "'"),
+}));
+---
+<Base title="Search">
+  <Crumbs items={[['Home', '/'], ['Search']]} />
+  <h1>Search</h1>
+  <div class="controls">
+  <form class="js-site-search" role="search" action={url('/search/')} method="get">
+    <label for="site-q">Search the website</label>
+    <div class="search-row">
+      <input id="site-q" name="q" type="search" placeholder="Search articles, writers, events and pages" />
+      <button class="btn" type="submit">Search</button>
+    </div>
+  </form>
+  </div>
+  <hr class="rule" />
+  <p class="js-site-count" aria-live="polite">Type a word or phrase to search.</p>
+  <ul class="search-results">
+    {results.map((r) => (
+      <li data-search={r.text} hidden>
+        <p class="eyebrow">{r.type}</p>
+        <h2><a href={url(r.href)}>{r.title}</a></h2>
+        {r.summary && <p>{r.summary}</p>}
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  .search-results { list-style: none; margin: 0; padding: 0; }
+  .search-results li { padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .search-results .eyebrow { margin-bottom: 6px; }
+  .search-results h2 { font-size: 22px; margin: 0 0 6px; }
+  .search-results h2 a { color: var(--ink); text-decoration: none; }
+  .search-results h2 a:hover { text-decoration: underline; }
+  .search-results p { margin: 0; }
+</style>
+
+<script>
+  const input = document.querySelector<HTMLInputElement>('#site-q');
+  const count = document.querySelector<HTMLElement>('.js-site-count');
+  const items = [...document.querySelectorAll<HTMLElement>('.search-results li')];
+  const apply = () => {
+    if (!input || !count) return;
+    // Every word typed must appear somewhere in the result.
+    const words = input.value.toLowerCase().replace(/[‘’]/g, "'").split(/\s+/).filter(Boolean);
+    let shown = 0;
+    items.forEach((li) => {
+      const match = words.length > 0 && words.every((w) => (li.dataset.search ?? '').includes(w));
+      li.hidden = !match;
+      if (match) shown += 1;
+    });
+    count.textContent = !words.length ? 'Type a word or phrase to search.'
+      : shown ? `${shown} result${shown === 1 ? '' : 's'} for “${input.value.trim()}”`
+      : `No results for “${input.value.trim()}”. Try a different word.`;
+    const params = new URLSearchParams(location.search);
+    if (words.length) params.set('q', input.value.trim()); else params.delete('q');
+    history.replaceState(null, '', `${location.pathname}${params.size ? `?${params}` : ''}`);
+  };
+  if (input) input.value = new URLSearchParams(location.search).get('q') ?? '';
+  apply();
+  input?.addEventListener('input', apply);
+  document.querySelector('.js-site-search')?.addEventListener('submit', (e) => { e.preventDefault(); apply(); });
+</script>

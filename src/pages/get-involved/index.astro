@@ -3,9 +3,9 @@ import Base from '../../layouts/Base.astro';
 import Ctas from '../../components/Ctas.astro';
 import { url } from '../../lib/site';
 const ways = [
-  ['Write for us!', 'Have a topic you’d love to write about?', url('/get-involved/write-for-us/'), 'Pitch to us!', '/get-involved/write-for-us/'],
-  ['Join the committee!', 'Want to get even more involved? We have a range of roles on the committee, from editing, event planning, design and marketing!', url('/get-involved/join-the-committee/'), 'Join the committee!', '/get-involved/join-the-committee/'],
-  ['Design for us!', 'More interested in the artistic side of things... then why not design for us!', url('/get-involved/design-for-us/'), 'Produce artwork for us!', '/get-involved/design-for-us/'],
+  ['Write for us!', 'Have a topic you’d love to explore? Then write for us! Whether you want to write one article or twenty, you can explore any topic in science that interests you!', url('/get-involved/write-for-us/'), 'Pitch to us!', '/get-involved/write-for-us/'],
+  ['Join the committee!', 'Want to get even more involved? We have a range of committee roles including editing, event planning, design and marketing.', url('/get-involved/join-the-committee/'), 'Join the committee!', '/get-involved/join-the-committee/'],
+  ['Design for us!', 'More interested in the artistic side of things... then why not design for us?', url('/get-involved/design-for-us/'), 'Produce artwork for us!', '/get-involved/design-for-us/'],
 ];
 ---
 <Base title="Get involved" current="Get involved">
@@ -14,9 +14,16 @@ const ways = [
   <div class="stack">
     <div class="grid-3">
       {ways.map(([title, text, href, label, page]) => (
-        <section class="outline"><h2><a href={url(page)} style="text-decoration:none">{title}</a></h2><p>{text}</p><a class="btn" href={href}>{label}</a></section>
+        <section class="outline way"><h2><a href={url(page)} style="text-decoration:none">{title}</a></h2><p>{text}</p><a class="btn" href={href}>{label}</a></section>
       ))}
     </div>
     <Ctas show={['newsletter']} />
   </div>
 </Base>
+
+<style>
+  .way { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .way h2 { font-size: 28px; }
+  .way p { font-size: 18px; line-height: 1.55; }
+  .way .btn { margin-top: auto; }
+</style>

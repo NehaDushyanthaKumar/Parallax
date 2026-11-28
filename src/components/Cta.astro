@@ -1,9 +1,15 @@
 ---
-const { eyebrow, title, text, href, label } = Astro.props;
+const { eyebrow, title, text, href, label, centered = false } = Astro.props;
 ---
-<section class="panel">
-  <p class="eyebrow">{eyebrow}</p>
+<section class:list={['panel', { 'cta-centered': centered }]}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
   <h2>{title}</h2>
   <p>{text}</p>
   <a class="btn" href={href}>{label}</a>
 </section>
+
+<style>
+  .cta-centered { text-align: center; }
+  .cta-centered p:not(.eyebrow) { max-width: 60ch; margin-inline: auto; }
+  .panel h2:first-child { margin-top: 0; }
+</style>
